@@ -1,5 +1,5 @@
 -- loadfile('SB2 Script/SCRIPT.lua')()
--- loadstring(game:HttpGet('https://raw.githubusercontent.com/Abuzzpoet/Swordburst-2/main/script.lua'))()
+-- loadstring(game:HttpGet('https://raw.githubusercontent.com/noobscripter38493/Swordburst-2/main/script.lua'))()
 if getgenv().SB2Script then
     return
 end
@@ -58,7 +58,7 @@ end
 
 if not UserInputS.TouchEnabled then
     if hasfilefunctions and placeid ~= 540240728 and placeid ~= 566212942 then
-        local MPS = game:GetService("MarketplaceServiceGUI Keybind")
+        local MPS = game:GetService("MarketplaceService")
         local info = MPS:GetProductInfo(placeid)
 
         local LastFloorUpdates = "SB2 Script/LastFloorUpdates"
@@ -425,7 +425,7 @@ local settings = { -- defaults
     Height = 30,
     Autofarm_Idle_Min = 30,
     Autofarm_Idle_Max = 70,
-    WebhookURL = "https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR",
+    WebhookURL = "",
     Inline = false,
     NoClip = false,
     Whitelist = {},
@@ -2759,9 +2759,9 @@ do
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     
     local label = Instance.new("TextLabel")
-    label.Text = "GuaAbuzz is AFK
+    label.Text = "Player is AFK"
     label.Parent = frame
-    label.TextSize = 25
+    label.TextSize = 30
     label.TextColor3 = Color3.fromRGB(255, 0, 0)
 
     local cam = workspace.CurrentCamera
@@ -2851,7 +2851,7 @@ do
     local Terrain = workspace.Terrain
     local Lighting = game.Lighting
     Performance_tab:AddButton({
-        Name = 'FPS BOOSTER TEXTURE DELETE',
+        Name = 'FPS BOOSTER TEXTURE DELETER',
         Callback = function()
             if textureremove then
                 return
@@ -3048,4 +3048,11 @@ do
             settings.GuiBind = key
         end
     })
+end
+
+do
+    local credits = window:MakeTab("Credits")
+
+    credits:AddParagraph("Create @ragingbirito")
+    credits:AddParagraph("Recode @GuaAbuzz")
 end
