@@ -2632,14 +2632,9 @@ do
 
         Stats:AddTextbox({
             Name = "Item Drop Webhook URL",
-            Default = settings.WebhookURL,
-            TextDisappear = true,
+            Default = tostring(settings.WebhookURL),
+            TextDisappear = false,
             Callback = function(url)
-                url = url:gsub(" ", " ")
-                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
-                    return WebhookErr("Domain not Discord")
-                end
-
                 local response = request({
                     Url = url,
                     Method = "GET"
