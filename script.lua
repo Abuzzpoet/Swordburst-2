@@ -37,7 +37,7 @@ local function create_confirm(text)
         coroutine.resume(thread, true)
     end)
 
-    new.PopupAcceptButton.MouseButton1Click:Connect(function()
+    new.PopupDeclineButton.MouseButton1Click:Connect(function()
         new:Destroy()
         coroutine.resume(thread, false)
     end)
@@ -772,7 +772,7 @@ end
 
 local orion = CoreGui:WaitForChild("Orion")
 
-local window = lib:MakeWindow("SB2 | GuaAbuzz | V1.0")
+local window = lib:MakeWindow("SB2 | GuaAbuzz")
 
 local rarities = {"Common", "Uncommon", "Rare", "Legendary", "Tribute"}
 local names = {"Commons", "Uncommons", "Rares", "Legendaries", "Tributes"}
@@ -2557,6 +2557,7 @@ do
                 return
             end
 
+            local webhookURL = settings.WebhookURL
 
             local ItemData = ItemDatas[c.Name]
             local item_class = ItemData.Type
@@ -2578,7 +2579,7 @@ do
             local shouldInline = settings.Inline
 
             request({
-                Url = settings.WebhookURL,
+                Url = webhookURL,
                 Method = "POST",
                 Body = HttpS:JSONEncode({
                     content = ping_everyone and "@everyone",
@@ -2629,9 +2630,15 @@ do
             })
         end
 
-        Stats:AddToggle({
+        Stats:AddTextbox({
             Name = "Item Drop Webhook URL",
             Default = settings.WebhookURL,
+            TextDisappear = true,
+            Callback = function(url)
+                url = url:gsub(" ", " ")
+                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
+                    return WebhookErr("Domain not Discord")
+                end
 
                 local response = request({
                     Url = url,
@@ -2776,7 +2783,7 @@ do
         circle.Color = Color3.fromRGB(255, 0, 0)
         circle.Visible = false
         game.UserInputService.InputChanged:Connect(function(input, processed)
-            if input.UserInputType == Enum.UserInputType then
+            if input.UserInputType == Enum.UserInputType.MouseMovement then
                 local pos = input.Position
                 circle.Position = Vector2.new(pos.X, pos.Y + 40)
             end
