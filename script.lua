@@ -58,7 +58,7 @@ end
 
 if not UserInputS.TouchEnabled then
     if hasfilefunctions and placeid ~= 540240728 and placeid ~= 566212942 then
-        local MPS = game:GetService("MarketplaceService")
+        local MPS = game:GetService("MarketplaceServiceGUI Keybind")
         local info = MPS:GetProductInfo(placeid)
 
         local LastFloorUpdates = "SB2 Script/LastFloorUpdates"
@@ -772,7 +772,7 @@ end
 
 local orion = CoreGui:WaitForChild("Orion")
 
-local window = lib:MakeWindow("SB2 | GuaAbuzz")
+local window = lib:MakeWindow("SB2")
 
 local rarities = {"Common", "Uncommon", "Rare", "Legendary", "Tribute"}
 local names = {"Commons", "Uncommons", "Rares", "Legendaries", "Tributes"}
@@ -2635,7 +2635,7 @@ do
             Default = settings.WebhookURL,
             TextDisappear = true,
             Callback = function(url)
-                url = url:gsub(" ", " ")
+                url = url:gsub(" ", "")
                 if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
                     return WebhookErr("Domain not Discord")
                 end
@@ -2759,9 +2759,9 @@ do
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     
     local label = Instance.new("TextLabel")
-    label.Text = "discord.gg/eWGZ8rYpxR"
+    label.Text = "GuaAbuzz is AFK
     label.Parent = frame
-    label.TextSize = 30
+    label.TextSize = 25
     label.TextColor3 = Color3.fromRGB(255, 0, 0)
 
     local cam = workspace.CurrentCamera
@@ -2851,7 +2851,7 @@ do
     local Terrain = workspace.Terrain
     local Lighting = game.Lighting
     Performance_tab:AddButton({
-        Name = 'FPS BOOSTER TEXTURE DELETER',
+        Name = 'FPS BOOSTER TEXTURE DELETE',
         Callback = function()
             if textureremove then
                 return
