@@ -1,5 +1,5 @@
 -- loadfile('SB2 Script/SCRIPT.lua')()
--- loadstring(game:HttpGet('https://raw.githubusercontent.com/noobscripter38493/Swordburst-2/main/script.lua'))()
+-- loadstring(game:HttpGet('https://raw.githubusercontent.com/Abuzzpoet/Swordburst-2/main/script.lua'))()
 if getgenv().SB2Script then
     return
 end
@@ -108,7 +108,7 @@ local sethiddenproperty = sethiddenproperty or sethiddenprop or set_hidden_prop
 
 local teleport_execute = queue_on_teleport or syn and syn.queue_on_teleport
 if teleport_execute then
-    teleport_execute("loadstring(game:HttpGet('https://raw.githubusercontent.com/noobscripter38493/Swordburst-2/main/script.lua'))()")
+    teleport_execute("loadstring(game:HttpGet('https://raw.githubusercontent.com/Abuzzpoet/Swordburst-2/main/script.lua'))()")
 end
 
 local mobs_on_floor = {
@@ -425,7 +425,7 @@ local settings = { -- defaults
     Height = 30,
     Autofarm_Idle_Min = 30,
     Autofarm_Idle_Max = 70,
-    WebhookURL = "",
+    WebhookURL = "https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR",
     Inline = false,
     NoClip = false,
     Whitelist = {},
@@ -772,7 +772,7 @@ end
 
 local orion = CoreGui:WaitForChild("Orion")
 
-local window = lib:MakeWindow("SB2 | discord: ragingbirito | v3rm: OneTaPuXd | .gg/eWGZ8rYpxR")
+local window = lib:MakeWindow("SB2 | GuaAbuzz | V1.0")
 
 local rarities = {"Common", "Uncommon", "Rare", "Legendary", "Tribute"}
 local names = {"Commons", "Uncommons", "Rares", "Legendaries", "Tributes"}
@@ -2635,7 +2635,7 @@ do
             Default = settings.WebhookURL,
             TextDisappear = true,
             Callback = function(url)
-                url = url:gsub("https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR", "https://discordapp.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR")
+                url = url:gsub(" ", " ")
                 if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
                     return WebhookErr("Domain not Discord")
                 end
@@ -3046,47 +3046,6 @@ do
         end,
         BindSetCallback = function(key)
             settings.GuiBind = key
-        end
-    })
-end
-
-do
-    local credits = window:MakeTab("Credits")
-
-    credits:AddParagraph("Credits", "Made by OneTaPuXd on v3rm")
-    credits:AddParagraph("discord: ragingbirito")
-    credits:AddButton({
-        Name = "Copy v3rm profile to clipboard",
-        Callback = function()
-            setclipboard("https://v3rmillion.net/member.php?action=profile&uid=1229592")
-        end
-    })
-
-    credits:AddButton({
-        Name = "copy v3rm thread to clipboard",
-        Callback = function()
-            setclipboard("https://v3rmillion.net/showthread.php?tid=1172798")
-        end
-    })
-
-    credits:AddButton({
-        Name = "Discord Server (Auto Prompt) code: eWGZ8rYpxR",
-        Callback = function()
-            request({
-                Url = "http://127.0.0.1:6463/rpc?v=1",
-                Method = "POST",
-                Headers = {
-                    ["Content-Type"] = "application/json",
-                    ["Origin"] = "https://discord.com"
-                },
-                Body = HttpS:JSONEncode({
-                    cmd = "INVITE_BROWSER",
-                    args = {
-                        code = "eWGZ8rYpxR"
-                    },
-                    nonce = HttpS:GenerateGUID()
-                })
-            })
         end
     })
 end
