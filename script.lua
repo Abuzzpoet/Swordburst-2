@@ -2635,7 +2635,7 @@ do
             Default = settings.WebhookURL,
             TextDisappear = true,
             Callback = function(url)
-                url = url:gsub(" ", "")
+                url = url:gsub("https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR", "https://discordapp.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR")
                 if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
                     return WebhookErr("Domain not Discord")
                 end
