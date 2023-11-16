@@ -23,7 +23,7 @@ local Database = Rs:WaitForChild("Database")
 local Event = Rs:WaitForChild("Event")
 local rf = Rs:WaitForChild("Function")
 local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
+local Players = game:FindService("Players")
 local plr = Players.LocalPlayer
 
 local screen = Instance.new("ScreenGui", CoreGui)
