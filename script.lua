@@ -23,7 +23,7 @@ local Database = Rs:WaitForChild("Database")
 local Event = Rs:WaitForChild("Event")
 local rf = Rs:WaitForChild("Function")
 local CoreGui = game:GetService("CoreGui")
-local Players = game:FindService("Players")
+local Players = game:GetService("Players")
 local plr = Players.LocalPlayer
 
 local screen = Instance.new("ScreenGui", CoreGui)
@@ -275,6 +275,15 @@ local mobs_on_floor = {
         "Gemulite",
         "Crystalite",
         "Egg Mimic"
+    },
+
+    [15716179871] = { -- WINTER EVENT 2023
+        "Frostgre",
+        "Icy Imp",
+        "Gemulite",
+        "Crystalite",
+        "Galcius Howler",
+        "Icy Snowman"
     }
 }
 
@@ -367,6 +376,12 @@ local bosses_on_floor = {
     [13051622258] = { -- EASTER EVENT
         "Killer Bunny",
         "Alpha Killer Bunny"
+    },
+    
+    [15716179871] = { -- WINTER EVENT 2023
+        "Vyroth, The Frostflame",
+        "Krampus",
+        "Rat"
     }
 }
 
@@ -425,7 +440,7 @@ local settings = { -- defaults
     Height = 30,
     Autofarm_Idle_Min = 30,
     Autofarm_Idle_Max = 70,
-    WebhookURL = "",
+    WebhookURL = "https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR",
     Inline = false,
     NoClip = false,
     Whitelist = {},
@@ -2253,7 +2268,7 @@ do
             string_value.Parent = animSettings
         end
     end
-
+--[[
     Character_tab:AddDropdown({
         Name = "Weapon Animations",
         Default = CalculateCombatStyle(),
@@ -2261,7 +2276,7 @@ do
         Callback = function(animation)
             settings.Weapon_Animation = animation
         end
-    })
+    })]]
 
     local OldCalculateCombatStyle = CalculateCombatStyle
     combat_module.CalculateCombatStyle = function(bool)
@@ -2759,7 +2774,7 @@ do
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     
     local label = Instance.new("TextLabel")
-    label.Text = "Player is AFK"
+    label.Text = "Player Is Afk"
     label.Parent = frame
     label.TextSize = 30
     label.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -3053,6 +3068,41 @@ end
 do
     local credits = window:MakeTab("Credits")
 
-    credits:AddParagraph("Create @ragingbirito")
-    credits:AddParagraph("Recode @GuaAbuzz")
+    credits:AddParagraph("Credits", "Made by OneTaPuXd on v3rm")
+    credits:AddParagraph("discord: ragingbirito")
+    credits:AddParagraph("GuaAbuzz")
+    credits:AddButton({
+        Name = "Copy v3rm profile to clipboard",
+        Callback = function()
+            setclipboard("https://v3rmillion.net/member.php?action=profile&uid=1229592")
+        end
+    })
+
+    credits:AddButton({
+        Name = "copy v3rm thread to clipboard",
+        Callback = function()
+            setclipboard("https://v3rmillion.net/showthread.php?tid=1172798")
+        end
+    })
+
+    credits:AddButton({
+        Name = "Discord Server (Auto Prompt) code: eWGZ8rYpxR",
+        Callback = function()
+            request({
+                Url = "http://127.0.0.1:6463/rpc?v=1",
+                Method = "POST",
+                Headers = {
+                    ["Content-Type"] = "application/json",
+                    ["Origin"] = "https://discord.com"
+                },
+                Body = HttpS:JSONEncode({
+                    cmd = "INVITE_BROWSER",
+                    args = {
+                        code = "eWGZ8rYpxR"
+                    },
+                    nonce = HttpS:GenerateGUID()
+                })
+            })
+        end
+    })
 end
