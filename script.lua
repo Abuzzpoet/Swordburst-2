@@ -115,7 +115,8 @@ local mobs_on_floor = {
     [540240728] = { -- arcadia -- floor 1
         "Dummy",
         "Statue",
-        "Platemail"
+        "Platemail",
+        "Mega Present"
     },
     
     [737272595] = {}, -- battle arena floor 1
