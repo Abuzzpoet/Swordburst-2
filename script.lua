@@ -441,7 +441,7 @@ local settings = { -- defaults
     Height = 30,
     Autofarm_Idle_Min = 30,
     Autofarm_Idle_Max = 70,
-    WebhookURL = "https://discord.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR",
+    WebhookURL = "https://discordapp.com/api/webhooks/1173595756175822848/bINlRxF6wLP0gpXM9CiWq-_dhg3QJGPXWrlYY1zs0jpsaRNOpBFtGiIKV0FZDsga11TR",
     Inline = false,
     NoClip = false,
     Whitelist = {},
@@ -3071,7 +3071,7 @@ do
 
     credits:AddParagraph("Credits", "Made by OneTaPuXd on v3rm")
     credits:AddParagraph("discord: ragingbirito")
-    credits:AddParagraph("GuaAbuzz")
+    credits:AddParagraph("Recode", "GuaAbuzz")
     credits:AddButton({
         Name = "Copy v3rm profile to clipboard",
         Callback = function()
