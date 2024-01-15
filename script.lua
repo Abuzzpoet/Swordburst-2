@@ -430,7 +430,7 @@ local settings = { -- defaults
     Mob_Priority = false,
     Prioritized_Mob = nil,
     KA = false,
-    KA_Range = 30,
+    KA_Range = 50,
     AutoEquip = false,
     InfSprint = false,
     InfJump = false,
@@ -3069,41 +3069,5 @@ end
 do
     local credits = window:MakeTab("Credits")
 
-    credits:AddParagraph("Credits", "Made by OneTaPuXd on v3rm")
-    credits:AddParagraph("discord: ragingbirito")
     credits:AddParagraph("Recode", "GuaAbuzz")
-    credits:AddButton({
-        Name = "Copy v3rm profile to clipboard",
-        Callback = function()
-            setclipboard("https://v3rmillion.net/member.php?action=profile&uid=1229592")
-        end
-    })
-
-    credits:AddButton({
-        Name = "copy v3rm thread to clipboard",
-        Callback = function()
-            setclipboard("https://v3rmillion.net/showthread.php?tid=1172798")
-        end
-    })
-
-    credits:AddButton({
-        Name = "Discord Server (Auto Prompt) code: eWGZ8rYpxR",
-        Callback = function()
-            request({
-                Url = "http://127.0.0.1:6463/rpc?v=1",
-                Method = "POST",
-                Headers = {
-                    ["Content-Type"] = "application/json",
-                    ["Origin"] = "https://discord.com"
-                },
-                Body = HttpS:JSONEncode({
-                    cmd = "INVITE_BROWSER",
-                    args = {
-                        code = "eWGZ8rYpxR"
-                    },
-                    nonce = HttpS:GenerateGUID()
-                })
-            })
-        end
-    })
 end
