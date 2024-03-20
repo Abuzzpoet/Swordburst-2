@@ -284,7 +284,8 @@ local mobs_on_floor = {
         "Gemulite",
         "Crystalite",
         "Galcius Howler",
-        "Icy Snowman"
+        "Icy Snowman",
+        "Dark Frost Goblin"
     }
 }
 
@@ -382,7 +383,12 @@ local bosses_on_floor = {
     [15716179871] = { -- WINTER EVENT 2023
         "Vyroth, The Frostflame",
         "Krampus",
-        "Rat"
+        "Rat",
+        "Ghost of the Present",
+        "Kloff, Marauder of the Frost",
+        "Ghost of the Past",
+        "Ghost of the Future",
+        
     }
 }
 
