@@ -286,6 +286,11 @@ local mobs_on_floor = {
         "Galcius Howler",
         "Icy Snowman",
         "Dark Frost Goblin"
+    },
+
+    [16810524216] = {
+        "Eternal Blossom Knight",
+        "Ancient Blossom Knight"
     }
 }
 
@@ -327,7 +332,7 @@ local bosses_on_floor = {
 
     [582198062] = { -- floor 7
         "Frogazoid",
-        "Smashroom"
+        "Smashroom the Mushroom Behemoth"
     },
 
     [548878321] = { -- floor 8
@@ -387,8 +392,12 @@ local bosses_on_floor = {
         "Ghost of the Present",
         "Kloff, Marauder of the Frost",
         "Ghost of the Past",
-        "Ghost of the Future",
-        
+        "Ghost of the Future"
+    },
+
+    [16810524216] = {
+        "Azeis, Spirit of the Eternal Blossom",
+        "Tworz, The Ancient"
     }
 }
 
@@ -436,7 +445,7 @@ local settings = { -- defaults
     Mob_Priority = false,
     Prioritized_Mob = nil,
     KA = false,
-    KA_Range = 50,
+    KA_Range = 30,
     AutoEquip = false,
     InfSprint = false,
     InfJump = false,
@@ -480,9 +489,9 @@ if hasfilefunctions then
         writefile(fileName, HttpS:JSONEncode(settings))
     end
 
-    xpcall(function()
-        HttpS:JSONDecode(readfile(fileName))
-    end, save_settings)
+    if not isfile(fileName) then
+        save_settings()
+    end
 
     local saved_settings = HttpS:JSONDecode(readfile(fileName))
     for i, v in saved_settings do
@@ -708,13 +717,13 @@ local Actions = require(Services.Actions)
 
 local startswing = Actions.StartSwing
 local stopswing = Actions.StopSwing
-Actions.StartSwing = function()
+--[[Actions.StartSwing = function()
     if settings.KA then
         return
     end
 
     return startswing()
-end
+end]]
 
 local attackrequest = combat_module.AttackRequest
 combat_module.AttackRequest = function(...)
@@ -794,7 +803,7 @@ end
 
 local orion = CoreGui:WaitForChild("Orion")
 
-local window = lib:MakeWindow("SB2")
+local window = lib:MakeWindow("SB2 | Abuzzpoet")
 
 local rarities = {"Common", "Uncommon", "Rare", "Legendary", "Tribute"}
 local names = {"Commons", "Uncommons", "Rares", "Legendaries", "Tributes"}
@@ -1583,7 +1592,7 @@ do
     })
 
     table.clear(Actions)
-
+--[[
     local was
     spawn(function()
         while true do wait()
@@ -1606,7 +1615,7 @@ do
                 stopswing()
             end
         end
-    end)
+    end)]]
 
     range.Touched:Connect(function(touching)
         if not settings.KA or touching.Parent == char or touching.Name ~= "HumanoidRootPart" then
@@ -2031,6 +2040,80 @@ do
 end
 
 do
+    local equiphigher_tab = window:MakeTab("Item Level Req Bypass")
+    equiphigher_tab:AddParagraph("Enabled by default. Equip items from inventory // made by wally")
+
+    local CardinalClient = (function()
+    	for i, v in next, getreg() do
+    		if type(v) == "table" and rawget(v, 'Services') then
+    			return v
+    		end
+    	end
+    end)()
+    
+    local ReplicatedStorage = game:GetService('ReplicatedStorage')
+    local ItemDatabase = ReplicatedStorage:WaitForChild('Database'):WaitForChild('Items')
+    
+    local PlrProfile = ReplicatedStorage:WaitForChild('Profiles'):WaitForChild(game.Players.LocalPlayer.Name)
+    local PlrInventory = PlrProfile:WaitForChild('Inventory')
+    
+    local UI = CardinalClient.Services.UI;
+    local UIScript = getfenv(UI.SafeInit).script
+    
+    local Inventory = require(UIScript.Inventory)
+    local Util = CardinalClient.Services
+    
+    _G['HasRequiredLevel'] = _G['HasRequiredLevel'] or Inventory.HasRequiredLevel
+    _G['GetOptions'] = _G['GetOptions'] or Inventory.GetOptions
+    _G['ItemAction'] = _G['ItemAction'] or Inventory.itemAction
+    
+    _G['EquipStore'] = {}
+    
+    local function FindSuitableInventoryItem(Target)
+    	for _, Item in next, PlrInventory:GetChildren() do
+    		local DatabaseEntry = ItemDatabase[Item.Name]
+    		if DatabaseEntry then
+    			local ItemType = DatabaseEntry.Type.Value
+    			if ItemType == Target.Type.Value then
+    				return {
+    					Name = Item.Name,
+    					Value = _G['LastSelectedItem'].Value,
+    				}
+    			end
+    		end
+    	end
+    end
+    
+    function Inventory.GetOptions(...)
+    	local input = ...
+    	if type(input) == 'table' then
+    		_G['LastSelectedItem'] = input.item
+    	end
+    	return _G['GetOptions'](...)
+    end
+    
+    function Inventory.HasRequiredLevel(...)
+    	local item = ...;
+    	if item then
+    		local replacement = FindSuitableInventoryItem(item)
+    		if replacement then
+    			_G['EquipStore'][_G['LastSelectedItem']] = replacement
+    			return true
+    		end
+    	end
+    	return _G['HasRequiredLevel'](...)
+    end
+    
+    function Inventory.itemAction(...)
+    	local input, func = ...
+    	if type(input) == 'table' and _G.EquipStore[input.item] then
+    		input.item = _G['EquipStore'][input.item]
+    	end
+    	return _G['ItemAction'](...)
+    end
+end
+
+do
     local autoflag_tab = window:MakeTab("Auto Flag")
 
     local autoflag
@@ -2275,16 +2358,18 @@ do
             string_value.Parent = animSettings
         end
     end
---[[
-    Character_tab:AddDropdown({
-        Name = "Weapon Animations",
-        Default = CalculateCombatStyle(),
-        Options = Animations,
-        Callback = function(animation)
-            settings.Weapon_Animation = animation
-        end
-    })]]
-
+    
+    --[[
+        Character_tab:AddDropdown({
+            Name = "Weapon Animations",
+            Default = CalculateCombatStyle(),
+            Options = Animations,
+            Callback = function(animation)
+                settings.Weapon_Animation = animation
+            end
+        })
+    ]]
+    
     local OldCalculateCombatStyle = CalculateCombatStyle
     combat_module.CalculateCombatStyle = function(bool)
         if getfenv(2) == getfenv(1) and bool == nil then
@@ -2781,7 +2866,7 @@ do
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     
     local label = Instance.new("TextLabel")
-    label.Text = "Player Is Afk"
+    label.Text = "AFK"
     label.Parent = frame
     label.TextSize = 30
     label.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -3075,5 +3160,5 @@ end
 do
     local credits = window:MakeTab("Credits")
 
-    credits:AddParagraph("Recode", "GuaAbuzz")
+    credits:AddParagraph("Abuzzpoet")
 end
