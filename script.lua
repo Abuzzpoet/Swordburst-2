@@ -2743,7 +2743,7 @@ do
             TextDisappear = true,
             Callback = function(url)
                 url = url:gsub(" ", "")
-                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") and not url:find("https://webhook.lewisakura.moe/") then
+                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") and not url:find("https://webhook.lewisakura.moe/api/webhooks/") then
                     return WebhookErr("Domain not Discord")
                 end
 
