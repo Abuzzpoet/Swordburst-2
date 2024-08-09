@@ -291,6 +291,13 @@ local mobs_on_floor = {
     [16810524216] = {
         "Eternal Blossom Knight",
         "Ancient Blossom Knight"
+    },
+
+    [18729767954] = {
+        "Jelly Slime",
+        "Burger Mimic",
+        "Cheese-Dip Slime",
+        "Rapapouillie"
     }
 }
 
@@ -398,6 +405,12 @@ local bosses_on_floor = {
     [16810524216] = {
         "Azeis, Spirit of the Eternal Blossom",
         "Tworz, The Ancient"
+    },
+
+    [18729767954] = {
+        "The Waiter",
+        "Ramseis, Chef of Souls",
+        "Meatball Abomination"
     }
 }
 
@@ -489,9 +502,9 @@ if hasfilefunctions then
         writefile(fileName, HttpS:JSONEncode(settings))
     end
 
-    if not isfile(fileName) then
-        save_settings()
-    end
+    xpcall(function()
+        HttpS:JSONDecode(readfile(fileName))
+    end, save_settings)
 
     local saved_settings = HttpS:JSONDecode(readfile(fileName))
     for i, v in saved_settings do
@@ -717,13 +730,13 @@ local Actions = require(Services.Actions)
 
 local startswing = Actions.StartSwing
 local stopswing = Actions.StopSwing
---[[Actions.StartSwing = function()
+Actions.StartSwing = function()
     if settings.KA then
         return
     end
 
     return startswing()
-end]]
+end
 
 local attackrequest = combat_module.AttackRequest
 combat_module.AttackRequest = function(...)
@@ -803,7 +816,7 @@ end
 
 local orion = CoreGui:WaitForChild("Orion")
 
-local window = lib:MakeWindow("SB2 | Abuzzpoet")
+local window = lib:MakeWindow("GuaAbuzz")
 
 local rarities = {"Common", "Uncommon", "Rare", "Legendary", "Tribute"}
 local names = {"Commons", "Uncommons", "Rares", "Legendaries", "Tributes"}
@@ -1592,7 +1605,7 @@ do
     })
 
     table.clear(Actions)
---[[
+    
     local was
     spawn(function()
         while true do wait()
@@ -1615,7 +1628,7 @@ do
                 stopswing()
             end
         end
-    end)]]
+    end)
 
     range.Touched:Connect(function(touching)
         if not settings.KA or touching.Parent == char or touching.Name ~= "HumanoidRootPart" then
@@ -1783,6 +1796,8 @@ do
     local lastcd = 0
     range.Touched:Connect(function(touching)
         local enemy = touching.Parent
+        if not enemy then return end
+            
         local mob = table.find(mobs_on_floor[placeid], enemy.Name)
         local boss = table.find(bosses_on_floor[placeid], enemy.Name)
 
@@ -2358,18 +2373,16 @@ do
             string_value.Parent = animSettings
         end
     end
-    
-    --[[
-        Character_tab:AddDropdown({
-            Name = "Weapon Animations",
-            Default = CalculateCombatStyle(),
-            Options = Animations,
-            Callback = function(animation)
-                settings.Weapon_Animation = animation
-            end
-        })
-    ]]
-    
+--[[
+    Character_tab:AddDropdown({
+        Name = "Weapon Animations",
+        Default = CalculateCombatStyle(),
+        Options = Animations,
+        Callback = function(animation)
+            settings.Weapon_Animation = animation
+        end
+    })
+
     local OldCalculateCombatStyle = CalculateCombatStyle
     combat_module.CalculateCombatStyle = function(bool)
         if getfenv(2) == getfenv(1) and bool == nil then
@@ -2381,7 +2394,7 @@ do
         end
 
         return settings.Weapon_Animation
-    end
+    end]]
 
     CalculateCombatStyle = combat_module.CalculateCombatStyle
 
@@ -2743,7 +2756,7 @@ do
             TextDisappear = true,
             Callback = function(url)
                 url = url:gsub(" ", "")
-                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") and not url:find("https://webhook.lewisakura.moe/api/webhooks/") then
+                if not url:find("https://discord.com/api/webhooks/") and not url:find("https://discordapp.com/api/webhooks/") then
                     return WebhookErr("Domain not Discord")
                 end
 
@@ -2866,7 +2879,7 @@ do
     frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     
     local label = Instance.new("TextLabel")
-    label.Text = "AFK"
+    label.Text = "GuaAbuzz"
     label.Parent = frame
     label.TextSize = 30
     label.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -3160,5 +3173,24 @@ end
 do
     local credits = window:MakeTab("Credits")
 
-    credits:AddParagraph("Abuzzpoet")
+    credits:AddButton({
+        Name = "Discord Server (Auto Prompt) code: eWGZ8rYpxR",
+        Callback = function()
+            request({
+                Url = "http://127.0.0.1:6463/rpc?v=1",
+                Method = "POST",
+                Headers = {
+                    ["Content-Type"] = "application/json",
+                    ["Origin"] = "https://discord.com"
+                },
+                Body = HttpS:JSONEncode({
+                    cmd = "INVITE_BROWSER",
+                    args = {
+                        code = "eWGZ8rYpxR"
+                    },
+                    nonce = HttpS:GenerateGUID()
+                })
+            })
+        end
+    })
 end
